@@ -1,0 +1,6 @@
+{"flashcards":[
+    {"clue_side":"Append to end of current line", "answer_side":"A", "hint":"(A)ppend"},
+    {"clue_side":"Jump forward to the start of a word", "answer_side":"w", "hint":"(w)ord"},
+    {"clue_side":"Jump backward to the start of a word", "answer_side":"b", "hint":"(b)ackwards"},
+    {"clue_side":"Jump to the start of the line", "answer_side":"0", "hint":"Index (0)"},
+]}
