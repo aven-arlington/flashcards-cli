@@ -7,7 +7,11 @@ use crate::engine::parser::FlashCard;
 
 pub fn run(config:Config) -> Result<(), Box<dyn Error>> {
     println!("File_path: {}", config.file_path.as_path().display());
-    let mut flashcards: Vec<FlashCard> = parser::parse_json(config.file_path)?;
+    let flashcards: Vec<FlashCard> = parser::parse_json(config.file_path)?;
+
+    for card in flashcards {
+        println!("Clue : {}", card.clue_side);
+    }
     Ok(())
 }
 
