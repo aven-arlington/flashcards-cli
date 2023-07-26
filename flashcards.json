@@ -1,6 +1,10 @@
 [
-    {"clue_side":"Append to end of current line", "answer_side":"A", "hint":"(A)ppend", "level":"0"},
-    {"clue_side":"Jump forward to the start of a word", "answer_side":"w", "hint":"(w)ord", "level":"0"},
-    {"clue_side":"Jump backward to the start of a word", "answer_side":"b", "hint":"(b)ackwards", "level":"0"},
-    {"clue_side":"Jump to the start of the line", "answer_side":"0", "hint":"Index (0)", "level":"0"}
+    {"clue_side":"Append to end of current line", "answer_side":"A", "hint":"(A)ppend", "level":0},
+    {"clue_side":"Jump forward to the start of a word", "answer_side":"w", "hint":"(w)ord", "level":0},
+    {"clue_side":"Jump backward to the start of a word", "answer_side":"b", "hint":"(b)ackwards", "level":0},
+    {"clue_side":"Jump to the start of the line", "answer_side":"0", "hint":"Index (0)", "level":0},
+    {"clue_side":"Yank (copy) marked text", "answer_side":"y", "hint":"(Y)ank", "level":1},
+    {"clue_side":"Yank (copy) the current line", "answer_side":"yy", "hint":"YYank", "level":2},
+    {"clue_side":"Yank into the system clipboard register", "answer_side":"\"+y", "hint":"Quote + Yank", "level":3},
+    {"clue_side":"Paste from the system clipboard register", "answer_side":"\"+p", "hint":"Quote + Paste", "level":3}
 ]
