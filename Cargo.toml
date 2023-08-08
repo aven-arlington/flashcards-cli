@@ -10,3 +10,5 @@ edition = "2021"
 serde = { version = "1.0.159", features = ["derive"] }
 serde_json = "1.0.96"
 rand = "*"
+log = "*"
+env_logger = "*"
