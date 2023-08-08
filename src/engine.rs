@@ -4,7 +4,6 @@ pub mod flashcard;
 use crate::engine::flashcard::FlashCard;
 use std::io::prelude::*;
 use std::error::Error;
-use std::collections::BTreeMap;
 use log::{debug, error, log_enabled, info, Level};
 use rand::prelude::*;
 use crate::Config;
@@ -12,21 +11,19 @@ use crate::Config;
 
 pub fn run(config:Config) -> Result<(), Box<dyn Error>> {
     debug!("Parsing json file: {}", config.file_path.as_path().display());
-    let levels = parser::parse_json(config.file_path)?;
+    let cards = parser::parse_json(config.file_path)?;
 
-    print_cards(&levels);
+    print_cards(&cards);
 
     println!("Welcome to FlashCards!");
     println!("Type \"Quit\" to exit the application.");
-    let mut level_iter = levels.iter();
+    let mut cards_iter = cards.iter();
     let mut quit = false;
     let mut score: usize = 0;
     let mut guess_count: usize = 0;
-    let (key, level) = level_iter.next().unwrap();
-    let mut card_iter = level.iter();
-    println!("Starting level: {}", key);
+    println!("Lets begin!");
     while !quit || guess_count < 3 {
-        let card = card_iter.next().unwrap();
+        let card = cards_iter.next().unwrap();
         print!("{}: ", card.clue_side);
         let mut input = String::new();
         std::io::stdout().flush().expect("Flush failed");
@@ -50,12 +47,8 @@ pub fn run(config:Config) -> Result<(), Box<dyn Error>> {
     Ok(())
 }
 
-pub fn print_cards(levels:&BTreeMap<u32, Vec<FlashCard>>) {
-    let level_iter = levels.iter();
-    for (key, level) in level_iter {
-        debug!("Level {}:", key);
-        for card in level {
-            debug!("{}", card.clue_side);
-        }
+pub fn print_cards(cards:&Vec<FlashCard>) {
+    for card in cards {
+        debug!("{}", card.clue_side);
     }
 }
