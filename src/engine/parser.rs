@@ -5,6 +5,7 @@ use serde::Deserialize;
 use std::collections::BTreeMap;
 use serde_json;
 use std::fs;
+use log::debug;
 
 #[derive(Deserialize, Debug, Eq, Clone)]
 pub struct FlashCard {
@@ -36,7 +37,7 @@ pub fn parse_json<P: AsRef<Path>>(file_path:P) -> Result<BTreeMap<u32, Vec<Flash
     let file_data = fs::read_to_string(file_path).expect("Unable to read json file");
 
     // TODO Remove debug print
-    println!("File data: {}", file_data);
+    debug!("File data: {}", file_data);
 
     let mut flashcards: Vec<FlashCard> = serde_json::from_str(file_data.as_str()).expect("Unable to parse data string");
     if flashcards.is_empty() {

@@ -1,6 +1,7 @@
 // Argument parsing logic to configure the application
 use std::env;
 use std::path::PathBuf;
+use log::{ debug, error };
 
 pub struct Config {
     pub file_path: PathBuf,
@@ -30,7 +31,7 @@ impl Config {
         path_buffer.pop();
         path_buffer.push("flashcards.json");
         let path_str = path_buffer.as_path().display().to_string();
-        println!("Checking for default configuration file: {}", path_str);
+        debug!("Checking for default configuration file: {}", path_str);
         if path_buffer.try_exists().unwrap() {
             Ok(path_buffer)
         } else {
@@ -41,7 +42,7 @@ impl Config {
     fn check_path_argument(arg_path: &String) -> Result<PathBuf, &'static str> {
         let path_buffer:PathBuf = PathBuf::from(arg_path);
         let path_str = path_buffer.as_path().display().to_string();
-        println!("Using custom configuration file path: {}", path_str);
+        debug!("Using custom configuration file path: {}", path_str);
         if path_buffer.try_exists().unwrap() {
             Ok(path_buffer)
         } else {
