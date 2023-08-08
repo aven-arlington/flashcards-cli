@@ -1,7 +1,7 @@
 // Argument parsing logic to configure the application
 use std::env;
 use std::path::PathBuf;
-use log::{ debug, error };
+use log::debug;
 
 pub struct Config {
     pub file_path: PathBuf,
