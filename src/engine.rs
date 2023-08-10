@@ -18,7 +18,7 @@ pub fn run(config:Config) -> Result<(), Box<dyn Error>> {
     }
 
     println!("Welcome to FlashCards!");
-    println!("Type \"Quit\" to exit the application.");
+    println!("Type \"quit\" to exit the application.");
     let mut quit = false;
     let mut score: usize = 0;
     let mut wrong_count: usize = 0;
