@@ -1,12 +1,23 @@
 use std::cmp::Ordering;
 use serde::Deserialize;
 
-#[derive(Deserialize, Debug, Eq, Clone)]
+#[derive(Deserialize, Default, Debug, Eq, Clone)]
 pub struct FlashCard {
     pub clue_side: String,
     pub answer_side: String,
     pub hint: String,
     pub level: u32
+}
+
+impl FlashCard {
+    pub fn new(clue_side: String, answer_side: String, hint: String, level:u32) -> Self {
+       Self { 
+           clue_side,
+           answer_side,
+           hint,
+           level
+       } 
+    }
 }
 
 impl Ord for FlashCard {
