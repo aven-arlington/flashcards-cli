@@ -1,5 +1,4 @@
 pub mod config;
-pub mod parser;
 pub mod flashcard;
 pub mod deck;
 use crate::engine::deck::Deck;
