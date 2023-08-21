@@ -9,7 +9,7 @@ use crate::Config;
 
 
 pub fn run(config:Config) -> Result<(), Box<dyn Error>> {
-    debug!("Parsing json file: {}", config.file_path.as_path().display());
+    debug!("Parsing yaml file: {}", config.file_path.as_path().display());
     let mut deck = Deck::new(config.file_path).expect("Could not create FlashCard Deck");
 
     if log_enabled!(Level::Debug) {

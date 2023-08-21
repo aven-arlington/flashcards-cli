@@ -29,13 +29,13 @@ impl Config {
     fn check_default_path() -> Result<PathBuf, &'static str> {
         let mut path_buffer:PathBuf = env::current_exe().unwrap();
         path_buffer.pop();
-        path_buffer.push("flashcards.json");
+        path_buffer.push("flashcards.yaml");
         let path_str = path_buffer.as_path().display().to_string();
         debug!("Checking for default configuration file: {}", path_str);
         if path_buffer.try_exists().unwrap() {
             Ok(path_buffer)
         } else {
-            Err("The flashcards.json configuration file could not be found")
+            Err("The flashcards.yaml configuration file could not be found")
         }
     }
 
