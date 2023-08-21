@@ -12,13 +12,13 @@ pub struct Deck {
 
 impl Deck {
     pub fn new<P: AsRef<Path>>(file_path:P) -> Result<Self, &'static str> {
-        let file_data = fs::read_to_string(file_path).expect("Unable to read json file");
+        let file_data = fs::read_to_string(file_path).expect("Unable to read config file");
 
         debug!("File data: {}", file_data);
 
-        let mut flashcards: Vec<FlashCard> = serde_json::from_str(file_data.as_str()).expect("Unable to parse data string");
+        let mut flashcards: Vec<FlashCard> = serde_yaml::from_str(file_data.as_str()).expect("Unable to parse data string");
         if flashcards.is_empty() {
-            return Err("No FlashCards in json file");
+            return Err("No FlashCards in config file");
         }
         flashcards.sort();
         
@@ -34,7 +34,7 @@ impl Deck {
 
     pub fn print_cards(&self) {
         for card in &self.cards {
-            println!("{}", card.clue_side);
+            debug!("{}", card.clue_side);
         }
     }
 
