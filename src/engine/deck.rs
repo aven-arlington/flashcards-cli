@@ -1,6 +1,4 @@
 use crate::engine::flashcard::FlashCard;
-use std::path::Path;
-use std::fs;
 use log::debug;
 use rand::prelude::*;
 
@@ -11,19 +9,16 @@ pub struct Deck {
 }
 
 impl Deck {
-    pub fn new<P: AsRef<Path>>(file_path:P) -> Result<Self, &'static str> {
-        let file_data = fs::read_to_string(file_path).expect("Unable to read config file");
+    pub fn new(mut cards: Vec<FlashCard>) -> Result<Self, &'static str> {
 
-        debug!("File data: {}", file_data);
 
-        let mut flashcards: Vec<FlashCard> = serde_yaml::from_str(file_data.as_str()).expect("Unable to parse data string");
-        if flashcards.is_empty() {
+        if cards.is_empty() {
             return Err("No FlashCards in config file");
         }
-        flashcards.sort();
+        cards.sort();
         
         Ok(Self { 
-            cards:flashcards,
+            cards,
             rng:rand::thread_rng(),
         })
     }
