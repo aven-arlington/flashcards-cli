@@ -1,5 +1,4 @@
 pub mod engine;
-use std::env;
 use std::process;
 use crate::engine::config::Config;
 use log::error;
@@ -9,9 +8,7 @@ use log::error;
 // Replace "debug" with desired logging level: info, warn, debug, error 
 fn main() {
     env_logger::init();
-    let args: Vec<String> = env::args().collect();
-
-    let config = Config::build(&args).unwrap_or_else(|err| {
+    let config = Config::build().unwrap_or_else(|err| {
         error!("Problem parsing arguments: {err}");
         process::exit(1);
     });

@@ -9,10 +9,11 @@ use crate::Config;
 
 
 pub fn run(config:Config) -> Result<(), Box<dyn Error>> {
-    debug!("Parsing yaml file: {}", config.file_path.as_path().display());
-    let mut deck = Deck::new(config.file_path).expect("Could not create FlashCard Deck");
+    let mut deck = Deck::new(config.cards).expect("Could not create FlashCard Deck");
 
     if log_enabled!(Level::Debug) {
+        debug!("attempts_before_hint: {}", config.attempts_before_hint);
+        debug!("attempts_before_wrong: {}", config.attempts_before_wrong);
         deck.print_cards();
     }
 

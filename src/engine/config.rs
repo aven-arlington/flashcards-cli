@@ -1,54 +1,38 @@
-// Argument parsing logic to configure the application
+use crate::engine::flashcard::FlashCard;
 use std::env;
+use std::fs;
 use std::path::PathBuf;
 use log::debug;
+use serde::Deserialize;
 
+#[derive(Deserialize)]
 pub struct Config {
-    pub file_path: PathBuf,
+    pub attempts_before_hint: usize,
+    pub attempts_before_wrong: usize,
+    pub cards: Vec<FlashCard>,
 }
 
 impl Config {
-    pub fn build(args: &[String]) -> Result<Config, &'static str> {
-        match args.len() {
-            1 => {
-                let file_path:PathBuf = Config::check_default_path().unwrap();
-                Ok(Config {
-                    file_path,
-                })
-            },
-            2 => {
-                let file_path:PathBuf = Config::check_path_argument(&args[1]).unwrap();
-                Ok(Config {
-                    file_path,
-                })
-            },
-            _ => Err("Too many arguments"),
-        }
+    pub fn build() -> Result<Config, &'static str> {
+        let file_path = Config::check_default_path().unwrap();
+
+        debug!("Parsing yaml file: {}", file_path.as_path().display());
+        let file_data = fs::read_to_string(file_path).expect("Unable to read config file");
+        debug!("File data:\n{}", file_data);
+
+        let conf : Config = serde_yaml::from_str(file_data.as_str()).expect("Unable to parse data string");
+
+        Ok(conf) 
     }
 
     fn check_default_path() -> Result<PathBuf, &'static str> {
-        let mut path_buffer:PathBuf = env::current_exe().unwrap();
-        path_buffer.pop();
+        let mut path_buffer:PathBuf = env::current_dir().unwrap();
         path_buffer.push("flashcards.yaml");
-        let path_str = path_buffer.as_path().display().to_string();
-        debug!("Checking for default configuration file: {}", path_str);
+        debug!("Checking for default configuration file: {}", path_buffer.as_path().display().to_string());
         if path_buffer.try_exists().unwrap() {
             Ok(path_buffer)
         } else {
             Err("The flashcards.yaml configuration file could not be found")
         }
     }
-
-    fn check_path_argument(arg_path: &String) -> Result<PathBuf, &'static str> {
-        let path_buffer:PathBuf = PathBuf::from(arg_path);
-        let path_str = path_buffer.as_path().display().to_string();
-        debug!("Using custom configuration file path: {}", path_str);
-        if path_buffer.try_exists().unwrap() {
-            Ok(path_buffer)
-        } else {
-            Err("The file provided in the argument does not exist")
-        }
-    }
 }
-
-
