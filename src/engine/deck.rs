@@ -10,8 +10,6 @@ pub struct Deck {
 
 impl Deck {
     pub fn new(mut cards: Vec<FlashCard>) -> Result<Self, &'static str> {
-
-
         if cards.is_empty() {
             return Err("No FlashCards in config file");
         }
