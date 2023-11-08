@@ -8,26 +8,71 @@ attempts_before_hint: 1
 attempts_before_wrong: 3
 
 cards:
+  - clue_side: Move cursor left
+    answer_side: "h"
+    hint: <- h l ->
+    level: 0
+
+  - clue_side: Move cursor down
+    answer_side: "j"
+    hint: (j)ump down a line
+    level: 0
+
+  - clue_side: Move cursor up
+    answer_side: "k"
+    hint: Not h,j, or l
+    level: 0
+
+  - clue_side: Move cursor right
+    answer_side: "l"
+    hint: <- h l ->
+    level: 0
+
+  - clue_side: Move cursor to the beginning of the line
+    answer_side: "0"
+    hint: index[0]
+    level: 0
+
+  - clue_side: Move cursor to first non-whitespace character of line
+    answer_side: "^"
+    hint: karat character
+    level: 0
+
+  - clue_side: Move cursor to the end of the line
+    answer_side: "$"
+    hint: Cash $ at the end
+    level: 0
+ 
+  - clue_side: Move cursor to the beginning of the file
+    answer_side: "gg"
+    hint: (gg)ame over. Go back to the start
+    level: 0
+
+  - clue_side: Move cursor to the end of the file
+    answer_side: "G"
+    hint: (G)o to the end of the file
+    level: 0
+
+  - clue_side: Move cursor to line number 5
+    answer_side: "5G"
+    hint: (XG)o lines X forward
+    level: 0
+
   - clue_side: Append to end of current line
     answer_side: A
     hint: (A)ppend
-    level: 0
+    level: 1
   
   - clue_side: Jump forward to the start of a word
     answer_side: w
     hint: (w)ord
-    level: 0
+    level: 1
   
   - clue_side: Jump backward to the start of a word
     answer_side: b
     hint: (b)ackwards
-    level: 0
-  
-  - clue_side: Jump to the start of the line
-    answer_side: "0"
-    hint: Index (0)
-    level: 0
-  
+    level: 1
+
   - clue_side: Yank (copy) marked text
     answer_side: y
     hint: (Y)ank
