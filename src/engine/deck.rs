@@ -1,93 +1,88 @@
 use crate::engine::flashcard::FlashCard;
-use std::ops::Range;
+use core::cmp::min;
 use log::debug;
 use rand::prelude::*;
+use std::collections::BTreeMap;
 
 #[derive(Debug)]
 pub struct Deck {
-    cards: Vec<FlashCard>,
-    level_indexes: Vec<usize>,
-    level_range: Range<usize>,
-    rng: ThreadRng
+    cards: BTreeMap<u32, Vec<FlashCard>>,
+    hand: Vec<FlashCard>,
+    available_levels: Vec<u32>,
+    current_levels: Vec<u32>,
+    rng: ThreadRng,
 }
 
 impl Deck {
-    pub fn new(mut cards: Vec<FlashCard>) -> Result<Self, &'static str> {
-        if cards.is_empty() {
-            return Err("No FlashCards in config file");
-        }
-        cards.sort();
-        
-        let mut level_indexes = Vec::new();
-        for (i, card) in cards.iter().enumerate() {
-            if level_indexes.is_empty() {
-                level_indexes.push(i);
-                continue;
-            }
-            if card.level > cards[level_indexes[level_indexes.len()-1]].level {
-                level_indexes.push(i);
-                continue;
-            }
+    pub fn new(mut cards_from_config: Vec<FlashCard>) -> Deck {
+        cards_from_config.sort();
+        let mut cards: BTreeMap<u32, Vec<FlashCard>> = BTreeMap::new();
+        for card in cards_from_config {
+            let key = card.level.unwrap_or_default();
+            cards
+                .entry(key)
+                .and_modify(|v| v.push(card.clone()))
+                .or_insert(vec![card.clone()]);
         }
 
-        let level_range = Range { start: 0, end: 1 };
+        let available_levels: Vec<u32> = cards.keys().cloned().collect();
+        let current_levels: Vec<u32> = vec![available_levels[0]];
+        let hand = Vec::new();
 
-
-        Ok(Self { 
+        Self {
             cards,
-            level_indexes,
-            level_range,
-            rng:rand::thread_rng(),
-        })
+            hand,
+            available_levels,
+            current_levels,
+            rng: rand::thread_rng(),
+        }
     }
 
-    pub fn next(&self) -> Result<FlashCard, &'static str> {
-        Ok(self.cards.get(0).expect("No Flashcards in deck").clone())
+    pub fn next_card(&mut self) -> Option<FlashCard> {
+        self.hand.pop()
+    }
+
+    pub fn draw_hand(&mut self) {
+        // Create the deck from possible cards, shuffle it, and draw a hand
+        let mut cards_to_draw_from: Vec<FlashCard> = Vec::new();
+        for level in &self.current_levels {
+            cards_to_draw_from.append(&mut self.cards.get(level).unwrap().clone());
+        }
+        cards_to_draw_from.shuffle(&mut self.rng);
+
+        self.hand.clear();
+        let hand_size = min(cards_to_draw_from.len(), 5);
+
+        self.hand.resize(hand_size, FlashCard::default());
+        self.hand
+            .clone_from_slice(&cards_to_draw_from[0..hand_size]);
+    }
+
+    pub fn hand_count(&self) -> usize {
+        self.hand.len()
     }
 
     pub fn print_cards(&self) {
-        for (i, card) in self.cards.iter().enumerate() {
-            debug!("Deck position {} - {}", i, card.clue_side);
+        for value in self.cards.values() {
+            for card in value {
+                debug!("Card - {}", card.clue_side);
+            }
         }
         debug!("Level Stratifications:");
-        for index in &self.level_indexes {
-            debug!("Deck index {}", index);
+        for level in &self.available_levels {
+            debug!("Deck level {}", level);
         }
     }
 
-    pub fn random_card(&mut self) -> Result<FlashCard, &'static str> {
-        let card_index = self.rng.gen_range(0..self.cards.len());
-        Ok(self.cards.get(card_index).expect("Flashcard does not exist").clone())
-    }
-
-    pub fn increase_level_max(&mut self) {
-        if self.level_range.end >= self.level_indexes.len() -1 {
-            println!("The maximum level has been reached");
-            return;
+    pub fn add_level_to_deck(&mut self) {
+        for level in &self.available_levels {
+            if self.current_levels.contains(level) {
+                continue;
+            }
+            println!("Adding level {} to the deck", level);
+            self.current_levels.push(*level);
+            break;
         }
-        println!("The maximum difficutly has increased!");
-        self.level_range.end += 1;
-    }
-
-    pub fn increase_level_min(&mut self) {
-        if self.level_range.start > self.level_range.end {
-            println!("The minimum level cannot be higher than the maximum.");
-            return;
-        }
-        if self.level_range.start >= self.level_indexes.len() -1 {
-            println!("The highest minimum level has been reached");
-            return;
-        }
-        println!("The minimum difficutly has increased!");
-        self.level_range.start += 1;
-    }
-
-    pub fn reset_level(&mut self) {
-        self.level_range = Range{ start: 0, end: 0 };
-    }
-
-    pub fn random_card_from_current_level_range(&mut self) -> Result<FlashCard, &'static str> {
-        let card_index = self.rng.gen_range(self.level_indexes[self.level_range.start]..self.level_indexes[self.level_range.end]);
-        Ok(self.cards.get(card_index).expect("Flashcard does not exist").clone())
     }
 }
+

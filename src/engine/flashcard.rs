@@ -1,22 +1,27 @@
-use std::cmp::Ordering;
 use serde::Deserialize;
+use std::cmp::Ordering;
 
 #[derive(Deserialize, Default, Debug, Eq, Clone)]
 pub struct FlashCard {
     pub clue_side: String,
     pub answer_side: String,
-    pub hint: String,
-    pub level: u32
+    pub level: Option<u32>,
+    pub hint: Option<String>,
 }
 
 impl FlashCard {
-    pub fn new(clue_side: String, answer_side: String, hint: String, level:u32) -> Self {
-       Self { 
-           clue_side,
-           answer_side,
-           hint,
-           level
-       } 
+    pub fn new(
+        clue_side: String,
+        answer_side: String,
+        hint: Option<String>,
+        level: Option<u32>,
+    ) -> Self {
+        Self {
+            clue_side,
+            answer_side,
+            level,
+            hint,
+        }
     }
 }
 
@@ -37,5 +42,4 @@ impl PartialEq for FlashCard {
         self.level == other.level
     }
 }
-
 

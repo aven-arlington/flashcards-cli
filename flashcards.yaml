@@ -1,8 +1,8 @@
 # Flashcards
 #   clue_side: The clue provided the player
 #   answer_side: The keyboard shortcut the player is expected to enter
-#   hint: A hint to provide a player after an incorrect answer
-#   level: The reletive difficulty of the flashcard
+#   level: Optional<u32> The reletive difficulty of the flashcard - default 0
+#   hint: Optional<String> A hint to provide a player after an incorrect answer - default ""
 attempts_before_hint: 1
 
 attempts_before_wrong: 3
@@ -10,86 +10,82 @@ attempts_before_wrong: 3
 cards:
   - clue_side: Move cursor left
     answer_side: "h"
-    hint: <- h l ->
     level: 0
+    hint: <- h l ->
 
   - clue_side: Move cursor down
     answer_side: "j"
-    hint: (j)ump down a line
     level: 0
+    hint: (j)ump down a line
 
   - clue_side: Move cursor up
     answer_side: "k"
-    hint: Not h,j, or l
     level: 0
+    hint: Not h,j, or l
 
   - clue_side: Move cursor right
     answer_side: "l"
-    hint: <- h l ->
     level: 0
+    hint: <- h l ->
 
   - clue_side: Move cursor to the beginning of the line
     answer_side: "0"
-    hint: index[0]
     level: 0
+    hint: index[0]
 
   - clue_side: Move cursor to first non-whitespace character of line
     answer_side: "^"
-    hint: karat character
-    level: 0
 
   - clue_side: Move cursor to the end of the line
     answer_side: "$"
-    hint: Cash $ at the end
-    level: 0
  
   - clue_side: Move cursor to the beginning of the file
     answer_side: "gg"
+    level: 1
     hint: (gg)ame over. Go back to the start
-    level: 0
 
   - clue_side: Move cursor to the end of the file
     answer_side: "G"
+    level: 1
     hint: (G)o to the end of the file
-    level: 0
 
   - clue_side: Move cursor to line number 5
     answer_side: "5G"
+    level: 1
     hint: (XG)o lines X forward
-    level: 0
 
   - clue_side: Append to end of current line
     answer_side: A
-    hint: (A)ppend
     level: 1
+    hint: (A)ppend
   
   - clue_side: Jump forward to the start of a word
     answer_side: w
-    hint: (w)ord
     level: 1
+    hint: (w)ord
   
   - clue_side: Jump backward to the start of a word
     answer_side: b
+    level: 2
     hint: (b)ackwards
-    level: 1
 
   - clue_side: Yank (copy) marked text
     answer_side: y
+    level: 2
     hint: (Y)ank
-    level: 1
   
   - clue_side: Yank (copy) the current line
     answer_side: yy
+    level: 3
     hint: YYank
-    level: 2
   
   - clue_side: Yank into the system clipboard register
-    answer_side: \+y
+    answer_side: "\"+y"
+    level: 2
     hint: Quote + Yank
-    level: 3
   
   - clue_side: Paste from the system clipboard register
-    answer_side: \+p
+    answer_side: "\"+p"
+    level: 4
     hint: Quote + Paste
-    level: 3
 
