@@ -19,8 +19,7 @@ pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
 
     println!("Welcome to FlashCards!");
     println!("Type \"quit\" to exit the application.");
-    let mut wrong_count: usize = 0;
-    while wrong_count < 3 {
+    loop {
         println!("Drawing a fresh hand of cards...");
         deck.draw_hand();
         while let Some(card) = deck.next_card() {
@@ -35,7 +34,6 @@ pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
                         deck.hand_count()
                     );
                 } else {
-                    wrong_count += 1;
                     println!("Incorrect, your input was: \"{}\"", input);
                     println!("The correct answer was: \"{}\"", card.answer_side);
                 }
@@ -46,9 +44,6 @@ pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
         }
         deck.add_level_to_deck();
     }
-
-    println!("Game Over");
-    Ok(())
 }
 
 fn get_input() -> Option<String> {

@@ -64,6 +64,78 @@ cards:
     level: 1
     hint: (w)ord
   
+  - clue_side: Enter Insert mode before the cursor
+    answer_side: i
+    level: 1
+
+  - clue_side: Enter Insert mode after the cursor
+    answer_side: a
+    level: 1
+
+  - clue_side: Enter Insert mode at beginning of the line
+    answer_side: I
+    level: 1
+
+  - clue_side: Enter Insert mode at the end of the line
+    answer_side: A
+    level: 1
+
+  - clue_side: Insert a new line below the current line and enter Insert mode
+    answer_side: o
+    level: 1
+
+  - clue_side: Insert a new line above the current line and enter Insert mode
+    answer_side: O
+    level: 1
+
+  - clue_side: Delete the current line
+    answer_side: dd
+    level: 2
+
+  - clue_side: Delete from the cursor to the end of the line
+    answer_side: D
+    level: 2
+
+  - clue_side: Undo the last change
+    answer_side: u
+    level: 2
+
+  - clue_side: Enter Visual mode and select text character by character
+    answer_side: v
+    level: 2
+
+  - clue_side: Enter Visual mode and select text line by line
+    answer_side: V
+    level: 2
+
+  - clue_side: Delete the selected text
+    answer_side: d
+    level: 2
+
+  - clue_side: Open file for editing
+    answer_side: ":e"
+    level: 2
+
+  - clue_side: Save current buffer to disk
+    answer_side: ":w"
+    level: 2
+
+  - clue_side: Close the current window
+    answer_side: ":q"
+    level: 2
+
+  - clue_side: Save and close the current window
+    answer_side: ":wq"
+    level: 2
+
+  - clue_side: Close the current window without saving
+    answer_side: ":q!"
+    level: 2
+
+  - clue_side: Save all open buffers to disk
+    answer_side: ":wa"
+    level: 2
+
   - clue_side: Jump backward to the start of a word
     answer_side: b
     level: 2
@@ -88,4 +160,21 @@ cards:
     answer_side: "\"+p"
     level: 4
     hint: Quote + Paste
+  
+  - clue_side: Split the window horizontally
+    answer_side: ":sp"
+    level: 3
+
+  - clue_side: Split the window vertically
+    answer_side: ":vsp"
+    level: 3
+
+  - clue_side:
+    answer_side:
+    level: 3
+
+  - clue_side:
+    answer_side:
+    level: 3
+
 
