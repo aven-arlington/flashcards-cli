@@ -1,5 +1,5 @@
-pub mod engine;
-use crate::engine::config::Config;
+use flashcards_cli::engine;
+//use flashcards_cli::engine::config::Config;
 use std::io::Write;
 use log::error;
 use std::process;
@@ -22,7 +22,7 @@ fn main() {
         })
         .init();
 
-    let config = Config::build().unwrap_or_else(|err| {
+    let config = engine::config::Config::build().unwrap_or_else(|err| {
         error!("Problem parsing arguments: {err}");
         process::exit(1);
     });

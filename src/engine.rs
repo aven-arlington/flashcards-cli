@@ -2,10 +2,21 @@ pub mod config;
 pub mod deck;
 pub mod flashcard;
 use crate::engine::deck::Deck;
-use crate::Config;
+use crate::engine::flashcard::FlashCard;
+use crate::engine::config::Config;
 use log::{debug, log_enabled, Level};
 use std::error::Error;
+use std::fmt;
 use std::io::prelude::*;
+
+#[derive(Debug, Clone)]
+struct QuitApp;
+
+impl fmt::Display for QuitApp {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "Quitting application")
+    }
+}
 
 pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
     let mut deck = Deck::new(config.cards);
@@ -19,36 +30,41 @@ pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
     println!("Welcome to FlashCards!");
     println!("Type \"quit\" to exit the application.");
     loop {
-        println!("Drawing a fresh hand of cards...");
         deck.draw_hand();
+        println!("Drawing a fresh hand of {} cards...", deck.hand_count());
         while let Some(card) = deck.next_card() {
-            print!("{}: ", card.clue_side);
-            let mut attempts = config.attempts_before_wrong;
-            while attempts > 0 {
-                let input = get_input();
-                debug!("Input \"{}\"", input);
-
-                if input == "quit" {
-                    println!("Quitting application");
-                    return Ok(());
-                } else if !(input == card.answer_side) {
-                    attempts -= 1;
-                    //println!("Incorrect, your input was: \"{}\"", input);
-                    if attempts == 1{
-                        println!("Incorrect. Try again");
-                    } else {
-                        println!("Incorrect. The correct answer is: \"{}\"", card.answer_side);
-                    }
-                } else {
-                    println!(
-                        "Correct! There are {} cards left in this hand.",
-                        deck.hand_count()
-                    );
-                    break;
-                }
+            if show_card(&card, config.attempts_before_wrong).is_err() {
+                println!("Quitting application");
+                return Ok(());
             }
         }
         deck.add_level_to_deck();
+    }
+}
+
+fn show_card(card: &FlashCard, mut attempts: usize) -> Result<bool, QuitApp> {
+    print!("{}: ", card.clue_side);
+    loop {
+        match get_input().as_str() {
+            "quit" => return Err(QuitApp),
+            s if s == card.answer_side => {
+                println!("Correct!",);
+                return Ok(true);
+            }
+            _ => {
+                attempts -= 1;
+                if attempts >= 1 {
+                    println!("Incorrect. Try again");
+                    print!("{}: ", card.clue_side);
+                } else {
+                    println!(
+                        "Incorrect. The correct answer was: \"{}\"",
+                        card.answer_side
+                    );
+                    return Ok(false);
+                }
+            }
+        }
     }
 }
 
@@ -61,7 +77,7 @@ fn get_input() -> String {
             break;
         }
         input.clear();
-        println!("Please enter a value");
+        println!("Please provide an answer or \"quit\" to exit the application.");
     }
     input
 }
