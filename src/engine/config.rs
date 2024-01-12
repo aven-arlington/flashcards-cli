@@ -7,7 +7,6 @@ use std::path::PathBuf;
 
 #[derive(Deserialize)]
 pub struct Config {
-    pub attempts_before_hint: usize,
     pub attempts_before_wrong: usize,
     pub cards: Vec<FlashCard>,
 }
@@ -23,10 +22,6 @@ impl Config {
         let conf: Config =
             serde_yaml::from_str(file_data.as_str()).expect("Unable to parse data string");
 
-        assert!(
-            conf.attempts_before_hint != 0,
-            "Invalid attmpts_before_hint"
-        );
         assert!(
             conf.attempts_before_wrong != 0,
             "Invalid attempts_before_wrong"

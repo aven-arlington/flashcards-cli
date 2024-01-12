@@ -3,7 +3,7 @@ This is a simple application that I developed while trying to learn both Rust ap
 
 The architecture is based loosely based off of [I/O Project: Building a Command Line Program](https://doc.rust-lang.org/book/ch12-00-an-io-project.html)
 
-The Flashcards CLI application is intended to read a file with "Clue" and "Answer" pairs from a configuration file. Then looping over random flashcard entries as corect answers are entered. If an incorrect answer is given a hint will then be provided.
+The Flashcards CLI application is intended to read a file with "Clue" and "Answer" pairs from a configuration file. Then looping over random flashcard entries as correct answers are entered. If an incorrect answer, a second chance to answer the question will be provided. After a 2nd incorrect answer, the correct answer will be provided.
 
 
 ## Building

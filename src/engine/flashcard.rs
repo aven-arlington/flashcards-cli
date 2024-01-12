@@ -6,21 +6,18 @@ pub struct FlashCard {
     pub clue_side: String,
     pub answer_side: String,
     pub level: Option<u32>,
-    pub hint: Option<String>,
 }
 
 impl FlashCard {
     pub fn new(
         clue_side: String,
         answer_side: String,
-        hint: Option<String>,
         level: Option<u32>,
     ) -> Self {
         Self {
             clue_side,
             answer_side,
             level,
-            hint,
         }
     }
 }

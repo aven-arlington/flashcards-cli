@@ -12,7 +12,6 @@ pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
 
     if log_enabled!(Level::Debug) {
         debug!("Config object data");
-        debug!("attempts_before_hint: {}", config.attempts_before_hint);
         debug!("attempts_before_wrong: {}", config.attempts_before_wrong);
         deck.print_cards();
     }
@@ -24,29 +23,36 @@ pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
         deck.draw_hand();
         while let Some(card) = deck.next_card() {
             print!("{}: ", card.clue_side);
-
-            if let Some(input) = get_input() {
+            let mut attempts = config.attempts_before_wrong;
+            while attempts > 0 {
+                let input = get_input();
                 debug!("Input \"{}\"", input);
 
-                if input == card.answer_side {
+                if input == "quit" {
+                    println!("Quitting application");
+                    return Ok(());
+                } else if !(input == card.answer_side) {
+                    attempts -= 1;
+                    //println!("Incorrect, your input was: \"{}\"", input);
+                    if attempts == 1{
+                        println!("Incorrect. Try again");
+                    } else {
+                        println!("Incorrect. The correct answer is: \"{}\"", card.answer_side);
+                    }
+                } else {
                     println!(
                         "Correct! There are {} cards left in this hand.",
                         deck.hand_count()
                     );
-                } else {
-                    println!("Incorrect, your input was: \"{}\"", input);
-                    println!("The correct answer was: \"{}\"", card.answer_side);
+                    break;
                 }
-            } else {
-                println!("Quitting application");
-                return Ok(());
             }
         }
         deck.add_level_to_deck();
     }
 }
 
-fn get_input() -> Option<String> {
+fn get_input() -> String {
     let mut input = String::new();
     std::io::stdout().flush().expect("Flush failed");
     while std::io::stdin().read_line(&mut input).is_ok() {
@@ -57,9 +63,6 @@ fn get_input() -> Option<String> {
         input.clear();
         println!("Please enter a value");
     }
-    match input.as_str() {
-        "quit" => None,
-        _ => Some(input),
-    }
+    input
 }
 

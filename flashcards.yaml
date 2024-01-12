@@ -2,36 +2,28 @@
 #   clue_side: The clue provided the player
 #   answer_side: The keyboard shortcut the player is expected to enter
 #   level: Optional<u32> The reletive difficulty of the flashcard - default 0
-#   hint: Optional<String> A hint to provide a player after an incorrect answer - default ""
-attempts_before_hint: 1
-
-attempts_before_wrong: 3
+attempts_before_wrong: 2
 
 cards:
   - clue_side: Move cursor left
     answer_side: "h"
     level: 0
-    hint: <- h l ->
 
   - clue_side: Move cursor down
     answer_side: "j"
     level: 0
-    hint: (j)ump down a line
 
   - clue_side: Move cursor up
     answer_side: "k"
     level: 0
-    hint: Not h,j, or l
 
   - clue_side: Move cursor right
     answer_side: "l"
     level: 0
-    hint: <- h l ->
 
   - clue_side: Move cursor to the beginning of the line
     answer_side: "0"
     level: 0
-    hint: index[0]
 
   - clue_side: Move cursor to first non-whitespace character of line
     answer_side: "^"
@@ -42,27 +34,22 @@ cards:
   - clue_side: Move cursor to the beginning of the file
     answer_side: "gg"
     level: 1
-    hint: (gg)ame over. Go back to the start
 
   - clue_side: Move cursor to the end of the file
     answer_side: "G"
     level: 1
-    hint: (G)o to the end of the file
 
   - clue_side: Move cursor to line number 5
     answer_side: "5G"
     level: 1
-    hint: (XG)o lines X forward
 
   - clue_side: Append to end of current line
     answer_side: A
     level: 1
-    hint: (A)ppend
   
   - clue_side: Jump forward to the start of a word
     answer_side: w
     level: 1
-    hint: (w)ord
   
   - clue_side: Enter Insert mode before the cursor
     answer_side: i
@@ -139,27 +126,22 @@ cards:
   - clue_side: Jump backward to the start of a word
     answer_side: b
     level: 2
-    hint: (b)ackwards
 
   - clue_side: Yank (copy) marked text
     answer_side: y
     level: 2
-    hint: (Y)ank
   
   - clue_side: Yank (copy) the current line
     answer_side: yy
     level: 3
-    hint: YYank
   
   - clue_side: Yank into the system clipboard register
     answer_side: "\"+y"
     level: 2
-    hint: Quote + Yank
   
   - clue_side: Paste from the system clipboard register
     answer_side: "\"+p"
     level: 4
-    hint: Quote + Paste
   
   - clue_side: Split the window horizontally
     answer_side: ":sp"
@@ -169,12 +151,5 @@ cards:
     answer_side: ":vsp"
     level: 3
 
-  - clue_side:
-    answer_side:
-    level: 3
-
-  - clue_side:
-    answer_side:
-    level: 3
 
 
