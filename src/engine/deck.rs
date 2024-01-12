@@ -1,11 +1,11 @@
-use crate::engine::flashcard::FlashCard;
+use crate::FlashCard;
 use core::cmp::min;
 use log::debug;
 use rand::prelude::*;
 use std::collections::BTreeMap;
 
 #[derive(Debug)]
-pub struct Deck {
+pub(crate) struct Deck {
     cards: BTreeMap<u32, Vec<FlashCard>>,
     hand: Vec<FlashCard>,
     available_levels: Vec<u32>,

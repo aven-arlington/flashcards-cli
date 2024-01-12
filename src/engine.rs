@@ -1,9 +1,7 @@
-pub mod config;
-pub mod deck;
-pub mod flashcard;
-use crate::engine::deck::Deck;
-use crate::engine::flashcard::FlashCard;
-use crate::engine::config::Config;
+mod deck;
+use deck::*;
+mod flashcard;
+pub use flashcard::*;
 use log::{debug, log_enabled, Level};
 use std::error::Error;
 use std::fmt;
@@ -18,7 +16,7 @@ impl fmt::Display for QuitApp {
     }
 }
 
-pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
+pub fn run(config: crate::Config) -> Result<(), Box<dyn Error>> {
     let mut deck = Deck::new(config.cards);
 
     if log_enabled!(Level::Debug) {

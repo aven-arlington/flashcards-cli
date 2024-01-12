@@ -1,4 +1,4 @@
-use crate::engine::flashcard::FlashCard;
+use crate::FlashCard;
 use log::debug;
 use serde::Deserialize;
 use std::env;

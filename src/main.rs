@@ -1,5 +1,3 @@
-use flashcards_cli::engine;
-//use flashcards_cli::engine::config::Config;
 use std::io::Write;
 use log::error;
 use std::process;
@@ -22,12 +20,12 @@ fn main() {
         })
         .init();
 
-    let config = engine::config::Config::build().unwrap_or_else(|err| {
+    let config = flashcards_cli::Config::build().unwrap_or_else(|err| {
         error!("Problem parsing arguments: {err}");
         process::exit(1);
     });
 
-    if let Err(e) = engine::run(config) {
+    if let Err(e) = flashcards_cli::run(config) {
         error!("Application error: {e}");
         process::exit(1);
     }
