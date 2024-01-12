@@ -10,5 +10,4 @@ edition = "2021"
 serde = { version = "1.0.159", features = ["derive"] }
 serde_yaml = "0.9.25"
 rand = "*"
-log = "*"
-env_logger = "*"
+

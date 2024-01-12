@@ -1,4 +1,5 @@
 mod engine;
-pub use engine::*;
-mod config;
+pub use engine::run;
+pub use engine::flashcard::*;
+pub mod config;
 pub use config::*;

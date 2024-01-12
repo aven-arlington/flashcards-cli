@@ -1,29 +1,10 @@
 mod deck;
-use deck::*;
-mod flashcard;
-pub use flashcard::*;
-use log::{debug, log_enabled, Level};
+pub mod flashcard;
 use std::error::Error;
-use std::fmt;
 use std::io::prelude::*;
 
-#[derive(Debug, Clone)]
-struct QuitApp;
-
-impl fmt::Display for QuitApp {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "Quitting application")
-    }
-}
-
 pub fn run(config: crate::Config) -> Result<(), Box<dyn Error>> {
-    let mut deck = Deck::new(config.cards);
-
-    if log_enabled!(Level::Debug) {
-        debug!("Config object data");
-        debug!("attempts_before_wrong: {}", config.attempts_before_wrong);
-        deck.print_cards();
-    }
+    let mut deck = deck::Deck::new(config.cards);
 
     println!("Welcome to FlashCards!");
     println!("Type \"quit\" to exit the application.");
@@ -31,23 +12,23 @@ pub fn run(config: crate::Config) -> Result<(), Box<dyn Error>> {
         deck.draw_hand();
         println!("Drawing a fresh hand of {} cards...", deck.hand_count());
         while let Some(card) = deck.next_card() {
-            if show_card(&card, config.attempts_before_wrong).is_err() {
+            if show_card(&card, config.attempts_before_wrong).is_none() {
                 println!("Quitting application");
                 return Ok(());
             }
         }
-        deck.add_level_to_deck();
+        deck.increase_level_pool();
     }
 }
 
-fn show_card(card: &FlashCard, mut attempts: usize) -> Result<bool, QuitApp> {
+fn show_card(card: &crate::FlashCard, mut attempts: usize) -> Option<bool> {
     print!("{}: ", card.clue_side);
     loop {
         match get_input().as_str() {
-            "quit" => return Err(QuitApp),
+            "quit" => return None,
             s if s == card.answer_side => {
                 println!("Correct!",);
-                return Ok(true);
+                return Some(true);
             }
             _ => {
                 attempts -= 1;
@@ -59,7 +40,7 @@ fn show_card(card: &FlashCard, mut attempts: usize) -> Result<bool, QuitApp> {
                         "Incorrect. The correct answer was: \"{}\"",
                         card.answer_side
                     );
-                    return Ok(false);
+                    return Some(false);
                 }
             }
         }

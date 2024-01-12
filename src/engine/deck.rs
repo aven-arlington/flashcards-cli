@@ -1,11 +1,10 @@
 use crate::FlashCard;
 use core::cmp::min;
-use log::debug;
 use rand::prelude::*;
 use std::collections::BTreeMap;
 
 #[derive(Debug)]
-pub(crate) struct Deck {
+pub struct Deck {
     cards: BTreeMap<u32, Vec<FlashCard>>,
     hand: Vec<FlashCard>,
     available_levels: Vec<u32>,
@@ -43,7 +42,6 @@ impl Deck {
     }
 
     pub fn draw_hand(&mut self) {
-        // Create the deck from possible cards, shuffle it, and draw a hand
         let mut cards_to_draw_from: Vec<FlashCard> = Vec::new();
         for level in &self.current_levels {
             cards_to_draw_from.append(&mut self.cards.get(level).unwrap().clone());
@@ -62,19 +60,7 @@ impl Deck {
         self.hand.len()
     }
 
-    pub fn print_cards(&self) {
-        for value in self.cards.values() {
-            for card in value {
-                debug!("Card - {}", card.clue_side);
-            }
-        }
-        debug!("Level Stratifications:");
-        for level in &self.available_levels {
-            debug!("Deck level {}", level);
-        }
-    }
-
-    pub fn add_level_to_deck(&mut self) {
+    pub fn increase_level_pool (&mut self) {
         for level in &self.available_levels {
             if self.current_levels.contains(level) {
                 continue;
