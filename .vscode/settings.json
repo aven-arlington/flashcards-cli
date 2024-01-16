@@ -1,0 +1,11 @@
+{
+  "files.exclude": {
+    "**/.codesandbox/": true,
+    "**/.devcontainer/": true,
+    "**/*.md": true,
+    "**/Cargo*": true,
+    "**/.gitignore": true,
+    "**/LICENSE*": true,
+    "**/.vscode/": true
+  }
+}
