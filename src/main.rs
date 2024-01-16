@@ -1,14 +1,8 @@
-use std::process;
+use flashcards_cli::Config;
 
 fn main() {
-    let config = flashcards_cli::Config::build().unwrap_or_else(|err| {
-        println!("Problem parsing arguments: {err}");
-        process::exit(1);
-    });
+    let config = Config::build();
 
-    if let Err(e) = flashcards_cli::run(config) {
-        println!("Application error: {e}");
-        process::exit(1);
-    }
+    flashcards_cli::run(config).unwrap();
 }
 
